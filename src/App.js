@@ -8,7 +8,7 @@ export default function App() {
       <footer>
         This project was coded by Alex and is{" "}
         <a
-          href="https://github.com/kukumbala/weather_task"
+          href="https://github.com/kukumbala/react-weather"
           target="_blank"
           rel="noreferrer"
         >

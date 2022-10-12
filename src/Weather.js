@@ -1,21 +1,30 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function Weather() {
-  let [ready, setReady] = useState("false");
-  let [currentTemperature, setCurrentTemperature] = useState("null");
-
+export default function Weather(props) {
+  // let [ready, setReady] = useState("false");
+  let [currentWeather, setCurrentWeather] = useState({ ready: false });
   function handleResponse(response) {
-    setCurrentTemperature(Math.round(response.data.main.temp));
-    setReady("true");
+    setCurrentWeather({
+      ready: true,
+      date: "Tuesday, October 12",
+      city: response.data.name,
+      temperature: response.data.main.temp,
+      humidity: response.data.main.humidity,
+      description: response.data.weather[0].description,
+      wind: response.data.wind.speed,
+      pressure: response.data.main.pressure,
+      icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+    });
+    // setReady("true");
   }
-  if (ready === "true") {
+  if (currentWeather.ready === true) {
     return (
       <div className="Weather">
         <div className="container">
           <div className="row  pb-4">
             <div className="col-5">
-              <h1>Zaporizhzhya</h1>
+              <h1>{currentWeather.city}</h1>
             </div>
             <div className="col-7">
               <form>
@@ -41,25 +50,24 @@ export default function Weather() {
           </div>
           <div className="row">
             <div className="col-4">
-              <span className="temperature">{currentTemperature}</span>
+              <span className="temperature">
+                {Math.round(currentWeather.temperature)}
+              </span>
               <span className="unit">°C</span>
               <ul>
-                <li>Tuesday, October 11</li>
+                <li>{currentWeather.date}</li>
                 <li>16:58</li>
               </ul>
             </div>
             <div className="col-2">
-              <img
-                src="http://openweathermap.org/img/wn/01d@2x.png"
-                alt="cloudy"
-              />
+              <img src={currentWeather.icon} alt={currentWeather.description} />
             </div>
             <div className="col-4">
               <ul>
-                <li>Cloudy</li>
-                <li>Pressure 1013hPa</li>
-                <li>Humidity 44%</li>
-                <li>Wind 3.53km/h</li>
+                <li>{currentWeather.description}</li>
+                <li>Pressure {currentWeather.pressure}hPa</li>
+                <li>Humidity {currentWeather.humidity}%</li>
+                <li>Wind {currentWeather.wind}km/h</li>
               </ul>
             </div>
           </div>
@@ -69,8 +77,7 @@ export default function Weather() {
     );
   } else {
     const apiKey = "dbfe710d4217359672738bda52809ad7";
-    let city = `Zaporizhzhya`;
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${props.defaultCity}&units=metric&appid=${apiKey}`;
     axios.get(apiUrl).then(handleResponse);
     return "Loading...";
   }

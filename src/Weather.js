@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import FormattedDate from "./FormattedDate";
 
 export default function Weather(props) {
-  // let [ready, setReady] = useState("false");
   let [currentWeather, setCurrentWeather] = useState({ ready: false });
   function handleResponse(response) {
     setCurrentWeather({
       ready: true,
-      date: "Tuesday, October 12",
+      date: new Date(response.data.dt * 1000),
       city: response.data.name,
       temperature: response.data.main.temp,
       humidity: response.data.main.humidity,
@@ -16,7 +16,6 @@ export default function Weather(props) {
       pressure: response.data.main.pressure,
       icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
     });
-    // setReady("true");
   }
   if (currentWeather.ready === true) {
     return (
@@ -54,10 +53,8 @@ export default function Weather(props) {
                 {Math.round(currentWeather.temperature)}
               </span>
               <span className="unit">°C</span>
-              <ul>
-                <li>{currentWeather.date}</li>
-                <li>16:58</li>
-              </ul>
+
+              <FormattedDate date={currentWeather.date} />
             </div>
             <div className="col-2">
               <img src={currentWeather.icon} alt={currentWeather.description} />

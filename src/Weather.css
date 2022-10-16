@@ -1,6 +1,5 @@
 .Weather {
   padding: 30px 15px;
-
   border: 1px solid #80aeae;
   box-shadow: 3px 3px 3px rgba(43, 67, 83, 0.4);
   border-radius: 5px;
@@ -17,6 +16,10 @@
 .unit {
   font-size: 34px;
   font-weight: 700;
+}
+span.metric {
+  position: relative;
+  top: -20px;
 }
 h1 {
   font-size: 30px;

@@ -19,12 +19,5 @@ export default function FormattedDate(props) {
   if (minutes < 10) {
     minutes = `0${minutes}`;
   }
-  return (
-    <ul>
-      <li>{days[day]}</li>
-      <li>
-        {hours}:{minutes}
-      </li>
-    </ul>
-  );
+  return `${days[day]}, ${hours}:${minutes}`;
 }
